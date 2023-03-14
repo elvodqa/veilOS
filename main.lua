@@ -7,6 +7,10 @@ mouse_down_y = 0
 mouse_release_x = 0
 mouse_release_y = 0
 
+wallpapers = {
+    xp = love.graphics.newImage("data/wallpaper/xp.jpg"),
+}
+
 function love.load()
     love.window.maximize( )
 end
@@ -18,6 +22,9 @@ end
 
 
 function love.draw()
+    -- draw wallpaper fit to screen
+    love.graphics.draw(wallpapers.xp, 0, 0, 0, love.graphics.getWidth()/wallpapers.xp:getWidth(), love.graphics.getHeight()/wallpapers.xp:getHeight())
+
     render_app(test_app)
 end
 
@@ -54,22 +61,32 @@ function render_app(app)
 
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.rectangle('fill', app.window.x, app.window.y, app.window.width, 32) -- top bar
-    love.graphics.setColor(255, 0, 0, 255)
+
+    
+    if love.mouse.getX() > app.window.x + app.window.width - 32 and love.mouse.getX() < app.window.x + app.window.width and love.mouse.getY() > app.window.y and love.mouse.getY() < app.window.y + 32 then
+        love.graphics.setColor(255/255, 0, 0, 255/255)
+    else
+        love.graphics.setColor(230/255, 10/255, 50/255, 255/255)
+    end
+
+    -- close logo
     love.graphics.rectangle('fill',
      app.window.x + app.window.width - 32,
      app.window.y,
      32, 32
     )
-    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.setColor(0, 0, 0, 255/255)
     love.graphics.print(app.window.title, app.window.x + 10, app.window.y+10)
 
     love.graphics.setCanvas(app.window.canvas)
         love.graphics.clear()
+        love.graphics.setColor(0, 0, 0, 255/255)
+        love.graphics.rectangle('fill', 0, 0, app.window.width, app.window.height)
         app.window.draw()
     love.graphics.setCanvas()
     love.graphics.draw(app.window.canvas, app.window.x, app.window.y+32)
 
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
     love.graphics.rectangle('line', app.window.x, app.window.y+32, app.window.width, app.window.height)
 end
 

@@ -12,7 +12,7 @@ test_app = {
 
 
 test_app.window.draw = function ()
-    love.graphics.setColor(255, 255, 0, 255)
+    love.graphics.setColor(255/255, 255/255, 0, 255/255)
     love.graphics.print("This is a test", 1, 1)
     love.graphics.rectangle('fill', 100, 100, 40, 70)
 end
