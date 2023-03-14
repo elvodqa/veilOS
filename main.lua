@@ -8,7 +8,7 @@ mouse_release_x = 0
 mouse_release_y = 0
 
 function love.load()
-    
+    love.window.maximize( )
 end
 
 
@@ -34,15 +34,13 @@ function render_app(app)
     -- add ability to drag window from top bar (not just from top left corner)
     if mouse_currently_down then
         -- check if mouse is in top bar using mouse_down_x and mouse_down_y
-        if love.mouse.getX() > app.window.x and love.mouse.getX() < app.window.x + app.window.width and love.mouse.getY() > app.window.y and love.mouse.getY() < app.window.y + 32 then
-            -- create offset_x and offset_y variables from top left corner of window
+        if not holded and love.mouse.getX() > app.window.x and love.mouse.getX() < app.window.x + app.window.width and love.mouse.getY() > app.window.y and love.mouse.getY() < app.window.y + 32 then
             offset_x = app.window.x - mouse_down_x
             offset_y = app.window.y - mouse_down_y
+            holded = true
         end
         if love.mouse.isDown(1) and mouse_currently_down then
-            -- offset_x and offset_y are not nil
             if offset_x and offset_y then
-                -- set window x and y to mouse position + offset
                 app.window.x = love.mouse.getX() + offset_x
                 app.window.y = love.mouse.getY() + offset_y
             end
@@ -50,14 +48,9 @@ function render_app(app)
         if love.mouse.isDown(1) == false then
             offset_x = nil
             offset_y = nil
+            holded = false
         end
     end
-    
-
-   
-
-   
-    
 
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.rectangle('fill', app.window.x, app.window.y, app.window.width, 32) -- top bar
@@ -78,10 +71,6 @@ function render_app(app)
 
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.rectangle('line', app.window.x, app.window.y+32, app.window.width, app.window.height)
-
-    
-     
-    
 end
 
 function love.mousepressed( x, y, button )
